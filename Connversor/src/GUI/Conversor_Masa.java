@@ -1,6 +1,9 @@
 package GUI;
 
+import Clases.Longitud;
+import Clases.Masa;
 import Clases.Moneda;
+import Controller.Controller;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -14,30 +17,30 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Conversor_Masa extends JPanel implements ActionListener {
-    Color color_fondo = new Color(130, 130, 130);
+    Color color_fondo = new Color(68, 10, 130);
     JLabel titulo, selec1, selec2, message;
     JComboBox opcion1, opcion2;
     JTextField numero_ingresado, numero_resultado;
     public Conversor_Masa(){
         //Label: Titulo
         titulo = new JLabel("Conversor de Masa");
-        titulo.setForeground(Color.BLACK);
+        titulo.setForeground(Color.WHITE);
         titulo.setBounds(100,20,400,30);
         titulo.setFont(new Font("Century Gothic", Font.BOLD, 35));
         this.add(titulo);
 
         //Label: desc1
         selec1 = new JLabel("De:");
-        selec1.setForeground(Color.BLACK);
+        selec1.setForeground(Color.WHITE);
         selec1.setBounds(10,100,400,30);
         selec1.setFont(new Font("Century Gothic", Font.BOLD, 15));
         this.add(selec1);
 
         //Combobox1
-        Moneda[] monedas = Moneda.values();
-        String[] strings = new String[monedas.length];
-        for(int i = 0; i < monedas.length; i++){
-            strings[i] = monedas[i].name();
+        Masa[] masas = Masa.values();
+        String[] strings = new String[masas.length];
+        for(int i = 0; i < masas.length; i++){
+            strings[i] = masas[i].name();
         }
 
         opcion1 = new JComboBox();
@@ -48,6 +51,21 @@ public class Conversor_Masa extends JPanel implements ActionListener {
         for(int i = 0; i < strings.length; i++){
             opcion1.addItem(strings[i]);
         }
+        opcion1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = numero_ingresado.getText();
+                if(text.isEmpty()){
+                    numero_resultado.setText("");
+                }
+                Controller c = new Controller();
+                String selectedValue1 = (String) opcion1.getSelectedItem();
+                Masa masa1 = Masa.valueOf(selectedValue1);
+                String selectedValue2 = (String) opcion2.getSelectedItem();
+                Masa masa2 = Masa.valueOf(selectedValue2);
+                numero_resultado.setText(c.Conversor_De_Masa(text, masa1,masa2).toString());
+            }
+        });
         this.add(opcion1);
 
         //TextField de ingreso
@@ -100,7 +118,15 @@ public class Conversor_Masa extends JPanel implements ActionListener {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 String text = numero_ingresado.getText();
-                System.out.println(text);
+                if(text.isEmpty()){
+                    numero_resultado.setText("");
+                }
+                Controller c = new Controller();
+                String selectedValue1 = (String) opcion1.getSelectedItem();
+                Masa masa1 = Masa.valueOf(selectedValue1);
+                String selectedValue2 = (String) opcion2.getSelectedItem();
+                Masa masa2 = Masa.valueOf(selectedValue2);
+                numero_resultado.setText(c.Conversor_De_Masa(text, masa1,masa2).toString());
             }
 
             @Override
@@ -118,7 +144,7 @@ public class Conversor_Masa extends JPanel implements ActionListener {
 
         //Label: desc2
         selec2 = new JLabel("a:");
-        selec2.setForeground(Color.BLACK);
+        selec2.setForeground(Color.WHITE);
         selec2.setBounds(300,100,400,30);
         selec2.setFont(new Font("Century Gothic", Font.BOLD, 15));
         this.add(selec2);
@@ -132,6 +158,21 @@ public class Conversor_Masa extends JPanel implements ActionListener {
         for(int i = strings.length-1; i >=0; i--){
             opcion2.addItem(strings[i]);
         }
+        opcion2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = numero_ingresado.getText();
+                if(text.isEmpty()){
+                    numero_resultado.setText("");
+                }
+                Controller c = new Controller();
+                String selectedValue1 = (String) opcion1.getSelectedItem();
+                Masa masa1 = Masa.valueOf(selectedValue1);
+                String selectedValue2 = (String) opcion2.getSelectedItem();
+                Masa masa2 = Masa.valueOf(selectedValue2);
+                numero_resultado.setText(c.Conversor_De_Masa(text, masa1,masa2).toString());
+            }
+        });
         this.add(opcion2);
 
         //TextField de respuesta

@@ -1,6 +1,9 @@
 package GUI;
 
+import Clases.Longitud;
 import Clases.Moneda;
+import Clases.Temperatura;
+import Controller.Controller;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -14,7 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Conversor_Longitud extends JPanel implements ActionListener {
-    Color color_fondo = new Color(130, 130, 130);
+    Color color_fondo = new Color(50, 131, 168);
     JLabel titulo, selec1, selec2, message;
     JComboBox opcion1, opcion2;
     JTextField numero_ingresado, numero_resultado;
@@ -22,7 +25,7 @@ public class Conversor_Longitud extends JPanel implements ActionListener {
         //Label: Titulo
         titulo = new JLabel("Conversor de Longitud");
         titulo.setForeground(Color.BLACK);
-        titulo.setBounds(100,20,400,30);
+        titulo.setBounds(75,20,400,50);
         titulo.setFont(new Font("Century Gothic", Font.BOLD, 35));
         this.add(titulo);
 
@@ -34,10 +37,10 @@ public class Conversor_Longitud extends JPanel implements ActionListener {
         this.add(selec1);
 
         //Combobox1
-        Moneda[] monedas = Moneda.values();
-        String[] strings = new String[monedas.length];
-        for(int i = 0; i < monedas.length; i++){
-            strings[i] = monedas[i].name();
+        Longitud[] longituds = Longitud.values();
+        String[] strings = new String[longituds.length];
+        for(int i = 0; i < longituds.length; i++){
+            strings[i] = longituds[i].name();
         }
 
         opcion1 = new JComboBox();
@@ -48,6 +51,21 @@ public class Conversor_Longitud extends JPanel implements ActionListener {
         for(int i = 0; i < strings.length; i++){
             opcion1.addItem(strings[i]);
         }
+        opcion1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = numero_ingresado.getText();
+                if(text.isEmpty()){
+                    numero_resultado.setText("");
+                }
+                Controller c = new Controller();
+                String selectedValue1 = (String) opcion1.getSelectedItem();
+                Longitud long1 = Longitud.valueOf(selectedValue1);
+                String selectedValue2 = (String) opcion2.getSelectedItem();
+                Longitud long2 = Longitud.valueOf(selectedValue2);
+                numero_resultado.setText(c.Conversor_De_Longitud(text, long1,long2).toString());
+            }
+        });
         this.add(opcion1);
 
         //TextField de ingreso
@@ -100,7 +118,15 @@ public class Conversor_Longitud extends JPanel implements ActionListener {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 String text = numero_ingresado.getText();
-                System.out.println(text);
+                if(text.isEmpty()){
+                    numero_resultado.setText("");
+                }
+                Controller c = new Controller();
+                String selectedValue1 = (String) opcion1.getSelectedItem();
+                Longitud long1 = Longitud.valueOf(selectedValue1);
+                String selectedValue2 = (String) opcion2.getSelectedItem();
+                Longitud long2 = Longitud.valueOf(selectedValue2);
+                numero_resultado.setText(c.Conversor_De_Longitud(text, long1,long2).toString());
             }
 
             @Override
@@ -132,6 +158,21 @@ public class Conversor_Longitud extends JPanel implements ActionListener {
         for(int i = strings.length-1; i >=0; i--){
             opcion2.addItem(strings[i]);
         }
+        opcion2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = numero_ingresado.getText();
+                if(text.isEmpty()){
+                    numero_resultado.setText("");
+                }
+                Controller c = new Controller();
+                String selectedValue1 = (String) opcion1.getSelectedItem();
+                Longitud long1 = Longitud.valueOf(selectedValue1);
+                String selectedValue2 = (String) opcion2.getSelectedItem();
+                Longitud long2 = Longitud.valueOf(selectedValue2);
+                numero_resultado.setText(c.Conversor_De_Longitud(text, long1,long2).toString());
+            }
+        });
         this.add(opcion2);
 
         //TextField de respuesta

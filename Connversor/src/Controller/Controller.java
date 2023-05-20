@@ -1,35 +1,34 @@
 package Controller;
 
+import Clases.Longitud;
+import Clases.Masa;
 import Clases.Moneda;
+import Clases.Temperatura;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class Controller {
-    public static Moneda[] monedas = Moneda.values();
-    public static BigDecimal[][] values_monedas = {{new BigDecimal(1), new BigDecimal(0.13), new BigDecimal(0.12), new BigDecimal(0.10), new BigDecimal(17.69), new BigDecimal(169.87)}
-            , {new BigDecimal(7.81), new BigDecimal(1), new BigDecimal(0.92), new BigDecimal(0.80), new BigDecimal(137.96), new BigDecimal(1325.20)}
-            , {new BigDecimal(8.45), new BigDecimal(1.08), new BigDecimal(1), new BigDecimal(0.87), new BigDecimal(149.33), new BigDecimal(1434.20)}
-            , {new BigDecimal(9.72), new BigDecimal(1.24), new BigDecimal(1.15), new BigDecimal(1), new BigDecimal(171.77), new BigDecimal(1649.42)}
-            , {new BigDecimal(0.057), new BigDecimal(0.0072), new BigDecimal(0.0067), new BigDecimal(0.0058), new BigDecimal(1), new BigDecimal(9.61)}
-            , {new BigDecimal(0.0059), new BigDecimal(0.00075), new BigDecimal(0.00070), new BigDecimal(0.0000061), new BigDecimal(0.10), new BigDecimal(1)}
-    };
+
     public Controller() {
     }
 
     public BigDecimal Conversor_De_Divisas(String cantidad_inicial, Moneda moneda_presente, Moneda moneda_a_convertir){
-        BigDecimal cantidad_a_convertir = cantidad_inicial.equals("") ? BigDecimal.ZERO : new BigDecimal(cantidad_inicial);
-        return Conversion_Monedas(cantidad_a_convertir, moneda_presente, moneda_a_convertir);
+        BigDecimal cantidad_a_convertir = cantidad_inicial.isEmpty() || cantidad_inicial.equals("-") ? BigDecimal.ZERO : new BigDecimal(cantidad_inicial);
+        return new Convertir_Divisas().Conversion_Monedas(cantidad_a_convertir,moneda_presente,moneda_a_convertir);
     }
 
-    private BigDecimal Conversion_Monedas(BigDecimal cantidad, Moneda moneda_presente, Moneda moneda_a_convertir){
-        for(int i= 0; i< monedas.length; i++){
-            for(int j= 0; j< monedas.length; j++){
-                if(moneda_presente == monedas[i] && moneda_a_convertir == monedas[j]){
-                    return cantidad.multiply(values_monedas[i][j]).setScale(2, RoundingMode.HALF_UP);
-                }
-            }
-        }
-        return BigDecimal.ZERO;
+    public BigDecimal Conversor_De_Temperatura(String valor_inicial, Temperatura temperatura_actual, Temperatura temperatura_a_convertir){
+        BigDecimal valor_a_convertir = valor_inicial.isEmpty() || valor_inicial.equals("-")? BigDecimal.ZERO : new BigDecimal(valor_inicial);
+        return new Convertir_Temperatura().Conversion_Temperatura(valor_a_convertir, temperatura_actual, temperatura_a_convertir);
+    }
+
+    public BigDecimal Conversor_De_Longitud(String valor_inicial, Longitud unidad_actual, Longitud unidad_a_convertir){
+        BigDecimal valor_a_convertir = valor_inicial.isEmpty()? BigDecimal.ZERO : new BigDecimal(valor_inicial);
+        return new Convertir_Longitud().Conversion_Longitud(valor_a_convertir, unidad_actual, unidad_a_convertir);
+    }
+
+    public BigDecimal Conversor_De_Masa(String valor_inicial, Masa unidad_actual, Masa unidad_a_convertir){
+        BigDecimal valor_a_convertir = valor_inicial.isEmpty()? BigDecimal.ZERO : new BigDecimal(valor_inicial);
+        return new Convertir_Masa().Conversion_Masa(valor_a_convertir, unidad_actual, unidad_a_convertir);
     }
 }

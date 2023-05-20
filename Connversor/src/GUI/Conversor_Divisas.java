@@ -56,7 +56,7 @@ public class Conversor_Divisas extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String text = numero_ingresado.getText();
-                if(text.equals("")){
+                if(text.isEmpty()){
                     numero_resultado.setText("");
                 }
                 Controller c = new Controller();
@@ -121,7 +121,7 @@ public class Conversor_Divisas extends JPanel implements ActionListener {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 String text = numero_ingresado.getText();
-                if(text.equals("")){
+                if(text.isEmpty()){
                     numero_resultado.setText("");
                 }
                 Controller c = new Controller();
@@ -167,7 +167,7 @@ public class Conversor_Divisas extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String text = numero_ingresado.getText();
-                if(text.equals("")){
+                if(text.isEmpty()){
                     numero_resultado.setText("");
                 }
                 Controller c = new Controller();
@@ -187,6 +187,13 @@ public class Conversor_Divisas extends JPanel implements ActionListener {
         numero_resultado.setFont(new Font("Century Gothic", Font.PLAIN, 30));
         numero_resultado.setEditable(false);
         this.add(numero_resultado);
+
+        //Label de message
+        message = new JLabel("Valores del 19/05/2023");
+        message.setForeground(Color.WHITE);
+        message.setBounds(170,250,500,30);
+        message.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        this.add(message);
 
         //PANEL
         this.setBounds(0,0, 550,400);

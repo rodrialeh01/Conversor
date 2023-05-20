@@ -1,6 +1,8 @@
 package GUI;
 
 import Clases.Moneda;
+import Clases.Temperatura;
+import Controller.Controller;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -14,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Conversor_Temperatura extends JPanel implements ActionListener {
-    Color color_fondo = new Color(130, 130, 130);
+    Color color_fondo = new Color(245, 123, 66);
     JLabel titulo, selec1, selec2, message;
     JComboBox opcion1, opcion2;
     JTextField numero_ingresado, numero_resultado;
@@ -23,7 +25,7 @@ public class Conversor_Temperatura extends JPanel implements ActionListener {
         //Label: Titulo
         titulo = new JLabel("Conversor de Temperatura");
         titulo.setForeground(Color.BLACK);
-        titulo.setBounds(100,20,400,30);
+        titulo.setBounds(40,20,500,50);
         titulo.setFont(new Font("Century Gothic", Font.BOLD, 35));
         this.add(titulo);
 
@@ -35,10 +37,10 @@ public class Conversor_Temperatura extends JPanel implements ActionListener {
         this.add(selec1);
 
         //Combobox1
-        Moneda[] monedas = Moneda.values();
-        String[] strings = new String[monedas.length];
-        for(int i = 0; i < monedas.length; i++){
-            strings[i] = monedas[i].name();
+        Temperatura[] temperaturas = Temperatura.values();
+        String[] strings = new String[temperaturas.length];
+        for(int i = 0; i < temperaturas.length; i++){
+            strings[i] = temperaturas[i].name();
         }
 
         opcion1 = new JComboBox();
@@ -49,6 +51,21 @@ public class Conversor_Temperatura extends JPanel implements ActionListener {
         for(int i = 0; i < strings.length; i++){
             opcion1.addItem(strings[i]);
         }
+        opcion1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = numero_ingresado.getText();
+                if(text.isEmpty()|| text.equals("-")){
+                    numero_resultado.setText("");
+                }
+                Controller c = new Controller();
+                String selectedValue1 = (String) opcion1.getSelectedItem();
+                Temperatura temp1 = Temperatura.valueOf(selectedValue1);
+                String selectedValue2 = (String) opcion2.getSelectedItem();
+                Temperatura temp2 = Temperatura.valueOf(selectedValue2);
+                numero_resultado.setText(c.Conversor_De_Temperatura(text, temp1,temp2).toString());
+            }
+        });
         this.add(opcion1);
 
         //TextField de ingreso
@@ -57,7 +74,7 @@ public class Conversor_Temperatura extends JPanel implements ActionListener {
         numero_ingresado.setBounds(10,190,200,50);
         numero_ingresado.setFont(new Font("Century Gothic", Font.PLAIN, 30));
         AbstractDocument document = (AbstractDocument) numero_ingresado.getDocument();
-        DocumentFilter documentFilter = new DocumentFilter(){
+        DocumentFilter documentFilter = new DocumentFilter() {
             @Override
             public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
                 StringBuilder sb = new StringBuilder();
@@ -92,7 +109,7 @@ public class Conversor_Temperatura extends JPanel implements ActionListener {
             }
 
             private boolean isDecimal(String text) {
-                return text.matches("^\\d*\\.?\\d*$"); // Verificar si el texto es un número decimal válido
+                return text.matches("^-?\\d*\\.?\\d*$"); // Permitir un signo negativo opcional
             }
         };
 
@@ -101,7 +118,15 @@ public class Conversor_Temperatura extends JPanel implements ActionListener {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 String text = numero_ingresado.getText();
-                System.out.println(text);
+                if(text.isEmpty()|| text.equals("-")){
+                    numero_resultado.setText("");
+                }
+                Controller c = new Controller();
+                String selectedValue1 = (String) opcion1.getSelectedItem();
+                Temperatura temp1 = Temperatura.valueOf(selectedValue1);
+                String selectedValue2 = (String) opcion2.getSelectedItem();
+                Temperatura temp2 = Temperatura.valueOf(selectedValue2);
+                numero_resultado.setText(c.Conversor_De_Temperatura(text, temp1,temp2).toString());
             }
 
             @Override
@@ -133,6 +158,21 @@ public class Conversor_Temperatura extends JPanel implements ActionListener {
         for(int i = strings.length-1; i >=0; i--){
             opcion2.addItem(strings[i]);
         }
+        opcion2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = numero_ingresado.getText();
+                if(text.equals("")){
+                    numero_resultado.setText("");
+                }
+                Controller c = new Controller();
+                String selectedValue1 = (String) opcion1.getSelectedItem();
+                Temperatura temp1 = Temperatura.valueOf(selectedValue1);
+                String selectedValue2 = (String) opcion2.getSelectedItem();
+                Temperatura temp2 = Temperatura.valueOf(selectedValue2);
+                numero_resultado.setText(c.Conversor_De_Temperatura(text, temp1,temp2).toString());
+            }
+        });
         this.add(opcion2);
 
         //TextField de respuesta
